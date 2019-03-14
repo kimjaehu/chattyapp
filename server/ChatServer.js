@@ -27,13 +27,13 @@ wss.broadcast = data => {
 };
 
 //stores username color assignment
-let usernameColourNumber = 1
+const colourGroup = ['#008744','#0057e7','#d62d20','#ffa700']
 
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
-  console.log('Client connected:',usernameColourNumber);
+  console.log('Client connected.');
   
   //to be worked on:
   //client connection information display to chat screen
@@ -54,16 +54,10 @@ wss.on('connection', (ws) => {
   //*************************************************** */
 
   // tracks the number of users entering the chatroom using wss.clients.size
-  if (usernameColourNumber < 4) {
-    usernameColourNumber = usernameColourNumber + 1
-  } else {
-    usernameColourNumber = 1
-  }
 
   const userTracker = {
     type: 'userTracker',
     id: uuid(),
-    userClass: usernameColourNumber,
     numberOfUsers: wss.clients.size
   }
   wss.broadcastJSON(userTracker)
@@ -71,7 +65,9 @@ wss.on('connection', (ws) => {
   ws.on('message', (message) => {
     console.log('received', JSON.parse(message))
     message = JSON.parse(message)
+    
     let type = ''
+
     switch(message.type) {
       case 'postMessage':
           type = 'incomingMessage'
@@ -87,17 +83,17 @@ wss.on('connection', (ws) => {
       username: message.username,
       content: message.content
     }
-    console.log('new Message',newMessage)
+
     wss.broadcastJSON(newMessage)
   })
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => {
     console.log('Client disconnected');
-    // const userTracker = {
-    //   type: 'userTracker',
-    //   numberOfUsers: wss.clients.size
-    // }
-    // wss.broadcastJSON(userTracker)
+    const userTracker = {
+      type: 'userTracker',
+      numberOfUsers: wss.clients.size
+    }
+    wss.broadcastJSON(userTracker)
   });
 });

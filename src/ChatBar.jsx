@@ -20,7 +20,7 @@ class ChatBar extends Component {
 
   //triggers when user presses the enter key
   handleKeyPress = (e) => {
-    if (e.key === 'Enter' && e.target.className === "chatbar-message") {
+    if (e.key === 'Enter' && e.target.className === "chatbar-message" && e.target.value) {
       this.props.handleMessage(e.target.value)
       e.target.value = ""
     } else if (e.key === 'Enter' && e.target.className === "chatbar-username") {

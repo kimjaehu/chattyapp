@@ -12,23 +12,6 @@ class App extends Component {
       userColour: {number: 1},
       currentUser: {name: "anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [
-        // {
-        //   id: 1,
-        //   username: "Bob",
-        //   content: "Has anyone seen my marbles?",
-        // },
-        // {
-        //   id: 2,
-        //   username: "Anonymous",
-        //   content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-        // },
-
-        // system comment handling
-        // {
-        //   id:4,
-        //   username: "",
-        //   content: "Anonymous1 changed their name to nomnom."
-        // }
       ]
     }
   }
@@ -36,21 +19,24 @@ class App extends Component {
   componentDidMount() {
     console.log("componentDidMount <App />");
     //websocket connection to localhost:3001
+    
     this.socket = new WebSocket("ws://localhost:3001")
+
     this.socket.addEventListener('open', (event) => {
       this.socket.send(JSON.stringify(this.state))
       console.log('Connected to server')
     })
+    
     this.socket.addEventListener('message', (event) => {
-    let newMessage = JSON.parse(event.data)
-    if (newMessage.type === "userTracker") {
-      let userCount = {counter:newMessage.numberOfUsers}
-      let userColour = {number: newMessage.userClass}
-      this.setState({userTracker: userCount})
-      this.setState({userColour: userColour})
-    }
-    const messages = this.state.messages.concat(newMessage)
-    this.setState({messages:messages})
+      let newMessage = JSON.parse(event.data)
+    
+      if (newMessage.type === "userTracker") {
+        let userCount = {counter:newMessage.numberOfUsers}
+        this.setState({userTracker: userCount})
+      }
+
+      const messages = this.state.messages.concat(newMessage)
+      this.setState({messages:messages})
     })
   }
   
