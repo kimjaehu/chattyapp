@@ -26,13 +26,42 @@ wss.broadcast = data => {
   });
 };
 
+//database for storing username color assignment
+const usernameDatabase = []
 
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
-  console.log('Client connected:',wss.clients.size);
-  ws.on('message', (message, data) => {
+  console.log('Client connected:',ws);
+  
+  //to be worked on:
+  //client connection information display to chat screen
+  //*************************************************** */
+  // ws.on('message', (message) => {
+  //   console.log('initial received', JSON.parse(message))
+  //   message = JSON.parse(message)
+  //   message = `User: ${message.currentUser.name} has entered the chatroom`
+  //   const currentUser = {
+  //     type: 'incomingNotification',
+  //     id: uuid(),
+  //     username:'system',
+  //     content: message 
+  //   }
+  //   console.log('currentUser', currentUser);
+  //   wss.broadcastJSON(currentUser)
+  // })
+  //*************************************************** */
+
+  // tracks the number of users entering the chatroom using wss.clients.size
+  const userTracker = {
+    type: 'userTracker',
+    id: uuid(),
+    numberOfUsers: wss.clients.size
+  }
+  wss.broadcastJSON(userTracker)
+
+  ws.on('message', (message) => {
     console.log('received', JSON.parse(message))
     message = JSON.parse(message)
     let type = ''
@@ -40,7 +69,6 @@ wss.on('connection', (ws) => {
       case 'postMessage':
           type = 'incomingMessage'
         break;
-
       case 'postNotification':
           type = 'incomingNotification'
         break;
@@ -53,11 +81,16 @@ wss.on('connection', (ws) => {
       content: message.content
     }
     console.log('new Message',newMessage)
-    wss.broadcastJSON((newMessage))
+    wss.broadcastJSON(newMessage)
   })
-  
-  
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => {
+    console.log('Client disconnected');
+    // const userTracker = {
+    //   type: 'userTracker',
+    //   numberOfUsers: wss.clients.size
+    // }
+    // wss.broadcastJSON(userTracker)
+  });
 });
