@@ -37,9 +37,8 @@ const colourGroup = ['#008744','#0057e7','#d62d20','#ffa700']
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
   console.log('Client connected.');
-
   // connected client information display to chat screen
-    const message = `User has entered the chatroom`
+    const message = 'User has entered the chatroom'
     const userConnect = {
       type: 'incomingNotification',
       id: uuid(),
@@ -101,12 +100,12 @@ wss.on('connection', (ws) => {
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => {
     console.log('Client disconnected');
+    
     const userTracker = {
       id: uuid(),
-      type: 'userTracker',
+      type: 'user tracker',
       numberOfUsers: wss.clients.size
     }
-    
     wss.broadcastJSON(userTracker)
   });
 });
