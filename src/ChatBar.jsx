@@ -5,9 +5,9 @@ class ChatBar extends Component {
     return (
       <footer className="chatbar">
         <input 
-          defaultValue = {this.props.currentUser.name}
           className="chatbar-username" 
-          placeholder={"Your Name (Optional)"} 
+          placeholder={this.props.currentUser.name} 
+          onKeyPress={this.handleKeyPress}
         />
         <input
           onKeyPress={this.handleKeyPress}
@@ -20,11 +20,13 @@ class ChatBar extends Component {
 
   //triggers when user presses the enter key
   handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && e.target.className === "chatbar-message") {
       this.props.handleMessage(e.target.value)
       e.target.value = ""
+    } else if (e.key === 'Enter' && e.target.className === "chatbar-username") {
+      console.log(e.target.value)
+      this.props.handleChange(e.target.value ? e.target.value : 'anonymous')
     }
   }
-
 }
 export default ChatBar;
