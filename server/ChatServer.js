@@ -63,6 +63,7 @@ wss.on('connection', (ws) => {
     numberOfUsers: wss.clients.size
   }
 
+  wss.broadcastJSON(userTracker)
   //Assigns user colour based on the index
   if (userIndex < 4) {
     userIndex = userIndex + 1

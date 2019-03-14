@@ -28,7 +28,7 @@ class App extends Component {
     
     this.socket.addEventListener('message', (event) => {
       let newMessage = JSON.parse(event.data)
-
+      console.log(newMessage)
       if (newMessage.type === 'user tracker') {
         let userCount = {counter:newMessage.numberOfUsers}
         this.setState({userTracker: userCount})
