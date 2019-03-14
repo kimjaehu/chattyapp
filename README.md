@@ -10,7 +10,7 @@ To get started, please find below:
 3. Start the web server using the `npm start` command (PORT:3000).
 4. Start websocket server from ChattyApp/server/ChatServer.js (PORT:3001) `node ChatServer.js`
 5. In your browser connect to <http://localhost:3000/>
-(https://raw.githubusercontent.com/kimjaehu/chattyapp/master/docs/localhost.png)
+!["Localhost"](https://raw.githubusercontent.com/kimjaehu/chattyapp/master/docs/localhost.png)
 
 Some basic commands are:
 ```
