@@ -82,6 +82,9 @@ wss.on('connection', (ws) => {
       case 'postNotification':
           type = 'incomingNotification'
         break;
+      case 'postImage':
+          type = 'incomingImage'
+        break;
     }
 
     const newMessage = {

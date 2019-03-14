@@ -41,6 +41,7 @@ class App extends Component {
         
         case 'incomingMessage':
         case 'incomingNotification':
+        case 'incomingImage':
       
           const messages = this.state.messages.concat(newMessage)
           this.setState({messages:messages})
@@ -51,8 +52,15 @@ class App extends Component {
   
   //handle input messages from NavBar where content is passed to the function
   messageHandler = (content) => {
+    const regexp = /\.(jpeg|jpg|gif|png)$/;
+    let type = ''
+    if(content.match(regexp)){
+      type = 'postImage'
+    } else {
+      type = 'postMessage'
+    }
     const newMessage = {
-      type: 'postMessage',
+      type: type,
       username: this.state.currentUser.name,
       content: content,
       colour: this.state.userColour
