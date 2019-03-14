@@ -28,19 +28,6 @@ class App extends Component {
     
     this.socket.addEventListener('message', (event) => {
       let newMessage = JSON.parse(event.data)
-      console.log(newMessage)
-      // if (newMessage.type === 'user tracker') {
-      //   let userCount = {counter:newMessage.numberOfUsers}
-      //   this.setState({userTracker: userCount})
-
-      // } else if (newMessage.type === 'user colour') {
-      //   let userColour = {colour: newMessage.userColour}  
-      //   this.setState({userColour: userColour})
-        
-      // } else if( newMessage.type === 'incomingMessage' || newMessage.type === 'incomingNotification') {
-      //   const messages = this.state.messages.concat(newMessage)
-      //   this.setState({messages:messages})
-      // }
 
       switch(newMessage.type) {
         case 'user tracker':
@@ -59,21 +46,9 @@ class App extends Component {
           this.setState({messages:messages})
             break;
       }
-
-
     })
   }
   
-  render() {
-    return (
-        <div>
-          <NavBar userTracker={this.state.userTracker} />
-          <ChatBar currentUser={this.state.currentUser} handleMessage = {this.messageHandler} handleChange = {this.usernameHandler} />
-          <MessageList messages={this.state.messages}/>
-        </div>
-    );
-  }
-
   //handle input messages from NavBar where content is passed to the function
   messageHandler = (content) => {
     const newMessage = {
@@ -91,16 +66,27 @@ class App extends Component {
         name:name
       }
       this.setState({currentUser: username})
-      
+
       const content = `${this.state.currentUser.name} has changed their name to ${name}`
       const newNotification = {
         type: 'postNotification',
         username: 'system',
         content: content
       }
+
       this.socket.send(JSON.stringify(newNotification))
     }
   }
+
+  render() {
+    return (
+        <div>
+          <NavBar userTracker={this.state.userTracker} />
+          <ChatBar currentUser={this.state.currentUser} handleMessage = {this.messageHandler} handleChange = {this.usernameHandler} />
+          <MessageList messages={this.state.messages}/>
+        </div>
+    );
+  }  
 }
 
 export default App;

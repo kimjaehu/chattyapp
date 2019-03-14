@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 
 class ChatBar extends Component {
+  //triggers when user presses the enter key
+  handleKeyPress = (e) => {
+    if (e.key === 'Enter' && e.target.className === "chatbar-message" && e.target.value) {
+      this.props.handleMessage(e.target.value)
+      e.target.value = ""
+    } else if (e.key === 'Enter' && e.target.className === "chatbar-username") {
+      console.log(e.target.value)
+      this.props.handleChange(e.target.value ? e.target.value : 'anonymous')
+    }
+  }
+
   render() {
     return (
       <footer className="chatbar">
@@ -16,17 +27,6 @@ class ChatBar extends Component {
         />
       </footer>
     );
-  }
-
-  //triggers when user presses the enter key
-  handleKeyPress = (e) => {
-    if (e.key === 'Enter' && e.target.className === "chatbar-message" && e.target.value) {
-      this.props.handleMessage(e.target.value)
-      e.target.value = ""
-    } else if (e.key === 'Enter' && e.target.className === "chatbar-username") {
-      console.log(e.target.value)
-      this.props.handleChange(e.target.value ? e.target.value : 'anonymous')
-    }
   }
 }
 export default ChatBar;
