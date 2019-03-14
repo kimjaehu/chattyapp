@@ -37,24 +37,16 @@ const colourGroup = ['#008744','#0057e7','#d62d20','#ffa700']
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
   console.log('Client connected.');
-  
-  //to be worked on:
-  //client connection information display to chat screen
-  //*************************************************** */
-  // ws.on('message', (message) => {
-  //   console.log('initial received', JSON.parse(message))
-  //   message = JSON.parse(message)
-  //   message = `User: ${message.currentUser.name} has entered the chatroom`
-  //   const currentUser = {
-  //     type: 'incomingNotification',
-  //     id: uuid(),
-  //     username:'system',
-  //     content: message 
-  //   }
-  //   console.log('currentUser', currentUser);
-  //   wss.broadcastJSON(currentUser)
-  // })
-  //*************************************************** */
+
+  // connected client information display to chat screen
+    const message = `User has entered the chatroom`
+    const userConnect = {
+      type: 'incomingNotification',
+      id: uuid(),
+      username:'system',
+      content: message 
+    }
+    wss.broadcastJSON(userConnect)
 
   // tracks the number of users entering the chatroom using wss.clients.size
 
@@ -63,7 +55,6 @@ wss.on('connection', (ws) => {
     numberOfUsers: wss.clients.size
   }
 
-  wss.broadcastJSON(userTracker)
   //Assigns user colour based on the index
   if (userIndex < 4) {
     userIndex = userIndex + 1
@@ -112,6 +103,7 @@ wss.on('connection', (ws) => {
       type: 'userTracker',
       numberOfUsers: wss.clients.size
     }
+    
     wss.broadcastJSON(userTracker)
   });
 });
