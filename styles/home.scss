@@ -59,9 +59,28 @@ body {
   flex: 8;
 }
 
-.message-username {
+.message-username1 {
   flex: 2;
   font-weight: 700;
+  color: #f9ff5b
+}
+
+.message-username2 {
+  flex: 2;
+  font-weight: 700;
+  color: #5bffce
+}
+
+.message-username3 {
+  flex: 2;
+  font-weight: 700;
+  color: #ff7d7d
+}
+
+.message-username4 {
+  flex: 2;
+  font-weight: 700;
+  color:#7bc8ea
 }
 
 .navbar {
@@ -86,3 +105,9 @@ body {
   padding: 0 10px;
   text-decoration: none;
 }
+
+.navbar-count {
+  float: right;
+  font-size: 14px;
+}
+

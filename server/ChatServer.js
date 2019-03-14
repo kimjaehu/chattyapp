@@ -1,7 +1,7 @@
 const express = require('express');
 const SocketServer = require('ws').Server;
 // import {uuidv1} from 'uuid/v1';
-const uuid = require('uuid/v1');
+const uuid = require('uuid/v4');
 
 // Set the port to 3001
 const PORT = 3001;
@@ -26,14 +26,14 @@ wss.broadcast = data => {
   });
 };
 
-//database for storing username color assignment
-const usernameDatabase = []
+//stores username color assignment
+let usernameColourNumber = 1
 
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
-  console.log('Client connected:',ws);
+  console.log('Client connected:',usernameColourNumber);
   
   //to be worked on:
   //client connection information display to chat screen
@@ -54,9 +54,16 @@ wss.on('connection', (ws) => {
   //*************************************************** */
 
   // tracks the number of users entering the chatroom using wss.clients.size
+  if (usernameColourNumber < 4) {
+    usernameColourNumber = usernameColourNumber + 1
+  } else {
+    usernameColourNumber = 1
+  }
+
   const userTracker = {
     type: 'userTracker',
     id: uuid(),
+    userClass: usernameColourNumber,
     numberOfUsers: wss.clients.size
   }
   wss.broadcastJSON(userTracker)

@@ -5,7 +5,7 @@ class Message extends Component {
     if (this.props.message.type === "incomingMessage") {
     return (
       <div className="message">
-        <span className="message-username">{this.props.message.username}</span>
+        <span className={`message-username${this.props.userClass.number}`}>{this.props.message.username}</span>
         <span className="message-content">{this.props.message.content}</span>
       </div>
     );
@@ -13,6 +13,8 @@ class Message extends Component {
       return (
         <div className = "message system">{this.props.message.content}</div>
       )
+    } else {
+      return null
     }
   }
 }

@@ -8,6 +8,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userTracker: {counter: 0},
+      userColour: {number: 1},
       currentUser: {name: "anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [
         // {
@@ -33,38 +35,31 @@ class App extends Component {
 
   componentDidMount() {
     console.log("componentDidMount <App />");
-    // setTimeout(() => {
-    //   console.log("Simulating incoming message");
-    //   // Add a new message to the list of messages in the data store
-    //   const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-    //   const messages = this.state.messages.concat(newMessage)
-    //   // Update the state of the app component.
-    //   // Calling setState will trigger a call to render() in App and all child components.
-    //   this.setState({messages: messages})
-    // }, 3000);
-
     //websocket connection to localhost:3001
     this.socket = new WebSocket("ws://localhost:3001")
     this.socket.addEventListener('open', (event) => {
+      this.socket.send(JSON.stringify(this.state))
       console.log('Connected to server')
     })
-
     this.socket.addEventListener('message', (event) => {
     let newMessage = JSON.parse(event.data)
-    console.log('event.data parsed',newMessage)
+    if (newMessage.type === "userTracker") {
+      let userCount = {counter:newMessage.numberOfUsers}
+      let userColour = {number: newMessage.userClass}
+      this.setState({userTracker: userCount})
+      this.setState({userColour: userColour})
+    }
     const messages = this.state.messages.concat(newMessage)
     this.setState({messages:messages})
-    console.log('this',this)
     })
   }
   
   render() {
-    console.log('render state',this.state)
     return (
         <div>
-          <NavBar />
-          <ChatBar currentUser={this.state.currentUser} handleMessage = {this.messageHandler} handleChange = {this.usernameHandler} />
-          <MessageList messages={this.state.messages} />
+          <NavBar userTracker={this.state.userTracker} />
+          <ChatBar currentUser={this.state.currentUser} userClass={this.state.userColour} handleMessage = {this.messageHandler} handleChange = {this.usernameHandler} />
+          <MessageList messages={this.state.messages} userClass={this.state.userColour}/>
         </div>
     );
   }
