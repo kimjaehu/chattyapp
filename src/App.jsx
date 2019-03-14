@@ -8,11 +8,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userColour: {colour: '#008744'},
       userTracker: {counter: 0},
-      userColour: {number: 1},
       currentUser: {name: "anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [
-      ]
+      messages: []
     }
   }
 
@@ -29,14 +28,19 @@ class App extends Component {
     
     this.socket.addEventListener('message', (event) => {
       let newMessage = JSON.parse(event.data)
-    
-      if (newMessage.type === "userTracker") {
+
+      if (newMessage.type === 'user tracker') {
         let userCount = {counter:newMessage.numberOfUsers}
         this.setState({userTracker: userCount})
-      }
 
-      const messages = this.state.messages.concat(newMessage)
-      this.setState({messages:messages})
+      } else if (newMessage.type === 'user colour') {
+        let userColour = {colour: newMessage.userColour}  
+        this.setState({userColour: userColour})
+        
+      } else if( newMessage.type === 'incomingMessage' || newMessage.type === 'incomingNotification') {
+        const messages = this.state.messages.concat(newMessage)
+        this.setState({messages:messages})
+    }
     })
   }
   
@@ -44,8 +48,8 @@ class App extends Component {
     return (
         <div>
           <NavBar userTracker={this.state.userTracker} />
-          <ChatBar currentUser={this.state.currentUser} userClass={this.state.userColour} handleMessage = {this.messageHandler} handleChange = {this.usernameHandler} />
-          <MessageList messages={this.state.messages} userClass={this.state.userColour}/>
+          <ChatBar currentUser={this.state.currentUser} handleMessage = {this.messageHandler} handleChange = {this.usernameHandler} />
+          <MessageList messages={this.state.messages}/>
         </div>
     );
   }
@@ -55,7 +59,8 @@ class App extends Component {
     const newMessage = {
       type: 'postMessage',
       username: this.state.currentUser.name,
-      content: content
+      content: content,
+      colour: this.state.userColour
     }
     this.socket.send(JSON.stringify(newMessage))
   }

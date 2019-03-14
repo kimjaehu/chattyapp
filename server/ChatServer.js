@@ -19,15 +19,18 @@ wss.broadcastJSON = obj => wss.broadcast(JSON.stringify(obj));
 
 //broadcast to all clients
 wss.broadcast = data => {
-  wss.clients.forEach(ws => {
-    if (ws.readyState === ws.OPEN) {
-      ws.send(data);
+  wss.clients.forEach(client => {
+    if (client.readyState === client.OPEN) {
+      client.send(data);
     }
   });
 };
 
 //stores username color assignment
+let userIndex = 1
 const colourGroup = ['#008744','#0057e7','#d62d20','#ffa700']
+
+//find usercolour.username1
 
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
@@ -56,11 +59,23 @@ wss.on('connection', (ws) => {
   // tracks the number of users entering the chatroom using wss.clients.size
 
   const userTracker = {
-    type: 'userTracker',
-    id: uuid(),
+    type: 'user tracker',
     numberOfUsers: wss.clients.size
   }
-  wss.broadcastJSON(userTracker)
+
+  //Assigns user colour based on the index
+  if (userIndex < 4) {
+    userIndex = userIndex + 1
+  } else {
+    userIndex = 1
+  }
+
+  const userColour = {
+    type: 'user colour',
+    userColour: colourGroup[userIndex]
+  }
+
+  ws.send(JSON.stringify(userColour))
 
   ws.on('message', (message) => {
     console.log('received', JSON.parse(message))
@@ -81,7 +96,8 @@ wss.on('connection', (ws) => {
       type: type,
       id: uuid(),
       username: message.username,
-      content: message.content
+      content: message.content,
+      colour: message.colour
     }
 
     wss.broadcastJSON(newMessage)
@@ -91,6 +107,7 @@ wss.on('connection', (ws) => {
   ws.on('close', () => {
     console.log('Client disconnected');
     const userTracker = {
+      id: uuid(),
       type: 'userTracker',
       numberOfUsers: wss.clients.size
     }
