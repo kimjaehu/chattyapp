@@ -10,6 +10,7 @@ To get started, please find below:
 3. Start the web server using the `npm start` command (PORT:3000).
 4. Start websocket server from ChattyApp/server/ChatServer.js (PORT:3001) `node ChatServer.js`
 5. In your browser connect to <http://localhost:3000/>
+(https://raw.githubusercontent.com/kimjaehu/chattyapp/master/docs/localhost.png)
 
 Some basic commands are:
 ```
@@ -17,7 +18,6 @@ npm install
 npm start
 node ChatServer.js <- within /server folder>
 ```
-
 
 ## How to chat
 
@@ -28,12 +28,22 @@ node ChatServer.js <- within /server folder>
 5. Your message will be visible on other users' computer.
 6. Check how many are currently using the Chatty App! :bowtie:
 
+## Functions
+
+[x] When connected user sends a chat message, all connected users receive and display the message
+[x] When connected user changes their name, all connected users are notified of the name change and notifications are styleized differently from messages.
+[x] Header displays the count of connected users
+[x] Users are coloured differently
+[x] Users are able to send image URL and render in the app
+
 ## Screenshots
 
-!["Chatty App"](https://raw.githubusercontent.com/kimjaehu/tweeter/master/docs/tweet-app.png)
-!["Changing username"](https://raw.githubusercontent.com/kimjaehu/tweeter/master/docs/tweet-app.png)
-!["Sending message"](https://raw.githubusercontent.com/kimjaehu/tweeter/master/docs/tweet-app.png)
-!["Sending image"](https://raw.githubusercontent.com/kimjaehu/tweeter/master/docs/tweet-app.png)
+!["Chatty App"](https://raw.githubusercontent.com/kimjaehu/chattyapp/master/docs/initial.png)
+!["Changing username"](https://raw.githubusercontent.com/kimjaehu/chattyapp/master/docs/usernameChange.png)
+!["Sending message"](https://github.com/kimjaehu/chattyapp/blob/master/docs/usermessage.png)
+!["Different colour for users"](https://raw.githubusercontent.com/kimjaehu/chattyapp/master/docs/differentcolor.png)
+!["Sending image 01"](https://raw.githubusercontent.com/kimjaehu/chattyapp/master/docs/imagemessage.png)
+!["Sending image 02"](https://raw.githubusercontent.com/kimjaehu/chattyapp/master/docs/imagemessage2.png)
 
 ## Acknowledgments
 
