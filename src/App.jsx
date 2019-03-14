@@ -29,18 +29,38 @@ class App extends Component {
     this.socket.addEventListener('message', (event) => {
       let newMessage = JSON.parse(event.data)
       console.log(newMessage)
-      if (newMessage.type === 'user tracker') {
-        let userCount = {counter:newMessage.numberOfUsers}
-        this.setState({userTracker: userCount})
+      // if (newMessage.type === 'user tracker') {
+      //   let userCount = {counter:newMessage.numberOfUsers}
+      //   this.setState({userTracker: userCount})
 
-      } else if (newMessage.type === 'user colour') {
-        let userColour = {colour: newMessage.userColour}  
-        this.setState({userColour: userColour})
+      // } else if (newMessage.type === 'user colour') {
+      //   let userColour = {colour: newMessage.userColour}  
+      //   this.setState({userColour: userColour})
         
-      } else if( newMessage.type === 'incomingMessage' || newMessage.type === 'incomingNotification') {
-        const messages = this.state.messages.concat(newMessage)
-        this.setState({messages:messages})
-    }
+      // } else if( newMessage.type === 'incomingMessage' || newMessage.type === 'incomingNotification') {
+      //   const messages = this.state.messages.concat(newMessage)
+      //   this.setState({messages:messages})
+      // }
+
+      switch(newMessage.type) {
+        case 'user tracker':
+          let userCount = {counter:newMessage.numberOfUsers}
+          this.setState({userTracker: userCount})
+            break;
+        case 'user colour':
+          let userColour = {colour: newMessage.userColour}  
+          this.setState({userColour: userColour})
+            break;
+        
+        case 'incomingMessage':
+        case 'incomingNotification':
+      
+          const messages = this.state.messages.concat(newMessage)
+          this.setState({messages:messages})
+            break;
+      }
+
+
     })
   }
   
