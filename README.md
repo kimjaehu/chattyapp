@@ -30,11 +30,11 @@ node ChatServer.js <- within /server folder>
 
 ## Functions
 
-[x] When connected user sends a chat message, all connected users receive and display the message
-[x] When connected user changes their name, all connected users are notified of the name change and notifications are styleized differently from messages.
-[x] Header displays the count of connected users
-[x] Users are coloured differently
-[x] Users are able to send image URL and render in the app
+- [x] When connected user sends a chat message, all connected users receive and display the message
+- [x] When connected user changes their name, all connected users are notified of the name change and notifications are styleized differently from messages.
+- [x] Header displays the count of connected users
+- [x] Users are coloured differently
+- [x] Users are able to send image URL and render in the app
 
 ## Screenshots
 
